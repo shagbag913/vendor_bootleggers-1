@@ -5,32 +5,38 @@ HEIGHT="$2"
 HALF_RES="$3"
 OUT="$ANDROID_PRODUCT_OUT/obj/BOOTANIMATION"
 
+if [ -z "$WIDTH" ]; then
+    echo "Warning: bootanimation width not specified"
+    WIDTH="1080"
+fi
+
+if [ -z "$HEIGHT" ]; then
+    echo "Warning: bootanimation height not specified"
+    HEIGHT="1080"
+fi
+
 if [ "$HEIGHT" -lt "$WIDTH" ]; then
-    IMAGEWIDTH="$HEIGHT"
+    SIZE="$HEIGHT"
 else
-    IMAGEWIDTH="$WIDTH"
+    SIZE="$WIDTH"
 fi
 
-IMAGESCALEWIDTH="$IMAGEWIDTH"
-IMAGESCALEHEIGHT=$(expr $IMAGESCALEWIDTH / 3)
-
-if [ "$HALF_RES" = "true" ]; then
-    IMAGEWIDTH=$(expr $IMAGEWIDTH / 2)
+if [ "$HALF_RES" != "false" ]; then
+    IMAGESIZE="$SIZE"
+else
+    IMAGESIZE=$(expr $SIZE / 2)
 fi
 
-IMAGEHEIGHT=$(expr $IMAGEWIDTH / 3)
-
-RESOLUTION=""$IMAGEWIDTH"x"$IMAGEHEIGHT""
+RESOLUTION=""$IMAGESIZE"x"$IMAGESIZE""
 
 for part_cnt in 0 1 2
 do
     mkdir -p $ANDROID_PRODUCT_OUT/obj/BOOTANIMATION/bootanimation/part$part_cnt
 done
-tar xfp "vendor/bootleggers/bootanimation/bootanimation.tar" -C "$OUT/bootanimation/"
-mogrify -resize $RESOLUTION -colors 250 "$OUT/bootanimation/"*"/"*".png"
+tar xfp "vendor/bootleggers/bootanimation/bootanimation.tar" --to-command="convert - -resize '$RESOLUTION' -colors 250 \"png8:$OUT/bootanimation/\$TAR_FILENAME\""
 
 # Create desc.txt
-echo "$IMAGESCALEWIDTH $IMAGESCALEHEIGHT" 60 > "$OUT/bootanimation/desc.txt"
+echo "$SIZE $SIZE" 60 > "$OUT/bootanimation/desc.txt"
 cat "vendor/bootleggers/bootanimation/desc.txt" >> "$OUT/bootanimation/desc.txt"
 
 # Create bootanimation.zip

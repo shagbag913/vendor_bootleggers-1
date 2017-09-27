@@ -104,7 +104,8 @@ PRODUCT_PACKAGES += \
 
 #Our Bootleggers stuff
 PRODUCT_PACKAGES += \
-    VisualizationWallpapers
+    VisualizationWallpapers \
+    bootanimation.zip
 
 # Extra tools
 PRODUCT_PACKAGES += \
@@ -174,31 +175,6 @@ TARGET_BOOTANIMATION_SIZE := $(shell \
   else \
     echo $(TARGET_SCREEN_HEIGHT); \
   fi )
-
-# get a sorted list of the sizes
-bootanimation_sizes := $(subst .zip,, $(shell ls vendor/bootleggers/prebuilt/common/bootanimation))
-bootanimation_sizes := $(shell echo -e $(subst $(space),'\n',$(bootanimation_sizes)) | sort -rn)
-
-# find the appropriate size and set
-define check_and_set_bootanimation
-$(eval TARGET_BOOTANIMATION_NAME := $(shell \
-  if [ -z "$(TARGET_BOOTANIMATION_NAME)" ]; then
-    if [ $(1) -le $(TARGET_BOOTANIMATION_SIZE) ]; then \
-      echo $(1); \
-      exit 0; \
-    fi;
-  fi;
-  echo $(TARGET_BOOTANIMATION_NAME); ))
-endef
-$(foreach size,$(bootanimation_sizes), $(call check_and_set_bootanimation,$(size)))
-
-ifeq ($(TARGET_BOOTANIMATION_HALF_RES),true)
-PRODUCT_COPY_FILES += \
-    vendor/bootleggers/prebuilt/common/bootanimation/halfres/$(TARGET_BOOTANIMATION_NAME).zip:system/media/bootanimation.zip
-else
-PRODUCT_COPY_FILES += \
-    vendor/bootleggers/prebuilt/common/bootanimation/$(TARGET_BOOTANIMATION_NAME).zip:system/media/bootanimation.zip
-endif
 endif
 
 # Versioning System
