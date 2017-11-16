@@ -46,20 +46,20 @@ function setup_vendor() {
         exit 1
     fi
 
-    export GZOSP_ROOT="$3"
-    if [ ! -d "$GZOSP_ROOT" ]; then
-        echo "\$GZOSP_ROOT must be set and valid before including this script!"
+    export BOOTLEG_ROOT="$3"
+    if [ ! -d "$BOOTLEG_ROOT" ]; then
+        echo "\$BOOTLEG_ROOT must be set and valid before including this script!"
         exit 1
     fi
 
     export OUTDIR=vendor/"$VENDOR"/"$DEVICE"
-    if [ ! -d "$GZOSP_ROOT/$OUTDIR" ]; then
-        mkdir -p "$GZOSP_ROOT/$OUTDIR"
+    if [ ! -d "$BOOTLEG_ROOT/$OUTDIR" ]; then
+        mkdir -p "$BOOTLEG_ROOT/$OUTDIR"
     fi
 
-    export PRODUCTMK="$GZOSP_ROOT"/"$OUTDIR"/"$DEVICE"-vendor.mk
-    export ANDROIDMK="$GZOSP_ROOT"/"$OUTDIR"/Android.mk
-    export BOARDMK="$GZOSP_ROOT"/"$OUTDIR"/BoardConfigVendor.mk
+    export PRODUCTMK="$BOOTLEG_ROOT"/"$OUTDIR"/"$DEVICE"-vendor.mk
+    export ANDROIDMK="$BOOTLEG_ROOT"/"$OUTDIR"/Android.mk
+    export BOARDMK="$BOOTLEG_ROOT"/"$OUTDIR"/BoardConfigVendor.mk
 
     if [ "$4" == "true" ] || [ "$4" == "1" ]; then
         COMMON=1
