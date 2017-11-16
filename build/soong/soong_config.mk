@@ -1,4 +1,4 @@
-gzosp_soong:
+bootleggers_soong:
 	$(hide) mkdir -p $(dir $@)
 	$(hide) (\
 	echo '{'; \
