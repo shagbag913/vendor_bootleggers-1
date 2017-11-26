@@ -138,6 +138,10 @@ PRODUCT_PACKAGES += \
 #PRODUCT_PACKAGES += \
 #    MagiskManager
 
+#Omnistuff
+PRODUCT_PACKAGES += \
+    OmniJaws
+
 # Magisk
 #PRODUCT_COPY_FILES += \
 #   vendor/bootleggers/prebuilt/common/addon.d/magisk.zip:system/addon.d/magisk.zip
