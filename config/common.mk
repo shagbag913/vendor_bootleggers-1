@@ -197,7 +197,7 @@ bootanimation_sizes := $(shell echo -e $(subst $(space),'\n',$(bootanimation_siz
 define check_and_set_bootanimation
 $(eval TARGET_BOOTANIMATION_NAME := $(shell \
   if [ -z "$(TARGET_BOOTANIMATION_NAME)" ]; then
-    if [ $(1) -le $(TARGET_SCREEN_WIDTH) ]; then \
+    if [ $(1) -le $(TARGET_BOOTANIMATION_SIZE) ]; then \
       echo $(1); \
       exit 0; \
     fi;
