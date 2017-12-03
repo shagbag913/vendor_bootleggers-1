@@ -22,7 +22,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_COPY_FILES += \
     vendor/bootleggers/prebuilt/common/bin/backuptool.sh:install/bin/backuptool.sh \
     vendor/bootleggers/prebuilt/common/bin/backuptool.functions:install/bin/backuptool.functions \
-    vendor/bootleggers/prebuilt/common/bin/50-bootleg.sh:system/addon.d/50-bootleg.sh
+    vendor/bootleggers/prebuilt/common/bin/50-bootleg.sh:system/addon.d/50-bootleggers.sh
 
 # Backup services whitelist
 PRODUCT_COPY_FILES += \
@@ -63,6 +63,9 @@ PRODUCT_COPY_FILES += \
     vendor/bootleggers/prebuilt/common/etc/init.d/90userinit:system/etc/init.d/90userinit \
     vendor/bootleggers/prebuilt/common/bin/sysinit:system/bin/sysinit
 
+# Call special ringtones makefile
+include vendor/bootleggers/config/common_audio.mk
+
 # Required packages
 PRODUCT_PACKAGES += \
     CellBroadcastReceiver \
@@ -97,7 +100,7 @@ PRODUCT_PACKAGES += \
     MiXplorerPrebuilt \
     RetroMusic \
     ViaPrebuilt
-     
+
 # Extra tools
 PRODUCT_PACKAGES += \
     openvpn \
@@ -108,6 +111,10 @@ PRODUCT_PACKAGES += \
     mkfs.exfat \
     ntfsfix \
     ntfs-3g
+
+# Extra Stuff from Omni/DU/Whatever
+PRODUCT_PACKAGES += \
+    OmniJaws
 
 # MusicFX advanced effects
 #ifneq ($(TARGET_NO_DSPMANAGER), true)
@@ -126,38 +133,12 @@ PRODUCT_PACKAGES += \
 #endif
 
 # DU Utils library
-#PRODUCT_BOOTLEG_JARS += \
+#PRODUCT_BOOT_JARS += \
 #    org.dirtyunicorns.utils
 
 # DU Utils library
 #PRODUCT_PACKAGES += \
 #    org.dirtyunicorns.utils
-
-#ifeq ($(DEFAULT_ROOT_METHOD),magisk)
-# Magisk Manager
-#PRODUCT_PACKAGES += \
-#    MagiskManager
-
-#Omnistuff
-PRODUCT_PACKAGES += \
-    OmniJaws
-
-# Magisk
-#PRODUCT_COPY_FILES += \
-#   vendor/bootleggers/prebuilt/common/addon.d/magisk.zip:system/addon.d/magisk.zip
-#endif
-
-#ifeq ($(DEFAULT_ROOT_METHOD),supersu)
-# SuperSU
-#PRODUCT_COPY_FILES += \
-#   vendor/bootleggers/prebuilt/common/etc/UPDATE-SuperSU.zip:system/addon.d/UPDATE-SuperSU.zip \
-#   vendor/bootleggers/prebuilt/common/etc/init.d/99SuperSUDaemon:system/etc/init.d/99SuperSUDaemon
-#endif
-
-# Explict rootless defined, or none of the root methods defined,
-# default rootless : nothing todo
-#ifeq ($(DEFAULT_ROOT_METHOD),rootless)
-#endif
 
 # Stagefright FFMPEG plugin
 PRODUCT_PACKAGES += \
@@ -221,6 +202,11 @@ PRODUCT_VERSION_MAJOR = Oreo
 PRODUCT_VERSION_MINOR = Amandla
 PRODUCT_VERSION_MAINTENANCE = 1.0
 BOOTLEG_POSTFIX := -$(shell date +"%Y%m%d-%H%M")
+
+ifndef BOOTLEG_BUILD_TYPE
+    BOOTLEG_BUILD_TYPE := Unshishufied
+endif
+
 ifdef BOOTLEG_BUILD_EXTRA
     BOOTLEG_POSTFIX := -$(BOOTLEG_BUILD_EXTRA)
     BOOTLEG_MOD_SHORT := BootleggersROM-$(PRODUCT_VERSION_MAJOR)4$(BOOTLEG_BUILD).$(BOOTLEG_BUILD_TYPE)$(BOOTLEG_POSTFIX)
@@ -228,14 +214,9 @@ else
     BOOTLEG_MOD_SHORT := BootleggersROM-$(PRODUCT_VERSION_MAJOR)4$(BOOTLEG_BUILD).$(BOOTLEG_BUILD_TYPE)
 endif
 
-ifndef BOOTLEG_BUILD_TYPE
-    BOOTLEG_BUILD_TYPE := Unshishufied
-endif
-
 # Set all versions
 BOOTLEG_VERSION := BootleggersROM-$(PRODUCT_VERSION_MAJOR)4$(BOOTLEG_BUILD).$(PRODUCT_VERSION_MAINTENANCE).$(BOOTLEG_BUILD_TYPE)$(BOOTLEG_POSTFIX)
 BOOTLEG_MOD_VERSION := BootleggersROM-$(PRODUCT_VERSION_MAJOR)4$(BOOTLEG_BUILD).$(PRODUCT_VERSION_MAINTENANCE).$(BOOTLEG_BUILD_TYPE)$(BOOTLEG_POSTFIX)
-
 
 PRODUCT_PROPERTY_OVERRIDES += \
     BUILD_DISPLAY_ID=$(BUILD_ID) \
@@ -248,6 +229,3 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.bootleg.display.version=$(BOOTLEG_VERSION)
 
 EXTENDED_POST_PROCESS_PROPS := vendor/bootleggers/tools/bootleg_process_props.py
-
-#Call special ringtones makefile
-include vendor/bootleggers/config/common_audio.mk
