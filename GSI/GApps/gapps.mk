@@ -1,8 +1,8 @@
 PRODUCT_COPY_FILES += \
-        vendor/bootleggers/GApps/empty-permission.xml:system/etc/permissions/com.google.android.camera2.xml \
-        vendor/bootleggers/GApps/empty-permission.xml:system/etc/permissions/com.google.android.camera.experimental2015.xml \
-        vendor/bootleggers/GApps/empty-permission.xml:system/etc/permissions/com.google.android.camera.experimental2016.xml \
-        vendor/bootleggers/GApps/empty-permission.xml:system/etc/permissions/com.google.android.camera.experimental2017.xml
+        vendor/bootleggers/GSI/GApps/empty-permission.xml:system/etc/permissions/com.google.android.camera2.xml \
+        vendor/bootleggers/GSI/GApps/empty-permission.xml:system/etc/permissions/com.google.android.camera.experimental2015.xml \
+        vendor/bootleggers/GSI/GApps/empty-permission.xml:system/etc/permissions/com.google.android.camera.experimental2016.xml \
+        vendor/bootleggers/GSI/GApps/empty-permission.xml:system/etc/permissions/com.google.android.camera.experimental2017.xml
 
 DEVICE_PACKAGE_OVERLAYS += vendor/bootleggers/GApps/overlay-gapps
 
