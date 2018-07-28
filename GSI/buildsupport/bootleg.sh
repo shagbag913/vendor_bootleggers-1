@@ -9,6 +9,8 @@ if [ "$#" -le 1 ];then
 	echo "*version examples"
 	echo "*arm64-aonly"
 	echo "*arm64-ab"
+	echo "*arm-aonly"
+	echo "*arm-ab"
 	exit 0
 fi
 
@@ -74,4 +76,8 @@ if [[ $vers == "arm64-aonly" ]];then
 buildVariant table_arm64_a-userdebug arm64-aonly
 elif [[ $vers == "arm64-ab" ]];then
 buildVariant table_arm64_ab-userdebug arm64-ab
+elif [[ $vers == "arm-a" ]];then
+buildVariant table_arm_a-userdebug arm-aonly
+elif [[ $vers == "arm-ab" ]];then
+buildVariant table_arm_ab-userdebug arm-ab
 fi
