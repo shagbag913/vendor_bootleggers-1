@@ -34,9 +34,15 @@ mkdir -p "$OUT/bootanimation"
 #
 #####
 BOOTANIM_NUMS="$OUT/../.ba_nums"
+
+# Build bootanimation blacklist
+for i in $(sed 's/,/ /g' <<< $PICK_BOOT); do
+    [[ $i =~ ^. ]] && BLACKLIST+="$i"
+done
+
 RANDOM_BOOT="$(cut -d, -f $BUILDNUM <<< "$PICK_BOOT",)"
 [[ -z $RANDOM_BOOT ]] && RANDOM_BOOT=$(shuf -i 0-9 -n 1)
-while cat $BOOTANIM_NUMS | grep $RANDOM_BOOT; do
+while cat $BOOTANIM_NUMS | grep $RANDOM_BOOT && echo $BLACKLIST | grep $RANDOM_BOOT; do
     RANDOM_BOOT=$(shuf -i 0-9 -n 1)
 done
 echo $RANDOM_BOOT >> $BOOTANIM_NUMS
